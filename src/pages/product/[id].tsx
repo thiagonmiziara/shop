@@ -1,4 +1,9 @@
+import { useState } from "react"
 import { GetStaticPaths, GetStaticProps } from "next"
+import Head from "next/head"
+import Image from "next/image"
+import { toast } from "react-toastify"
+import axios from "axios"
 import { stripe } from "@/lib/stripe"
 import Stripe from "stripe"
 import {
@@ -6,10 +11,6 @@ import {
   ProductContainer,
   ProductDetails,
 } from "@/styles/pages/product"
-import Image from "next/image"
-import { toast } from "react-toastify"
-import axios from "axios"
-import { useState } from "react"
 
 interface IProductsProps {
   id: string
@@ -44,22 +45,30 @@ export default function Product({ product }: TProductPageProps) {
   }
 
   return (
-    <ProductContainer>
-      <ImageContainer>
-        <Image src={product.imageUrl} alt="" width={520} height={480} />
-      </ImageContainer>
+    <>
+      <Head>
+        <title>{product.name} | Miziara shop</title>
+      </Head>
+      <ProductContainer>
+        <ImageContainer>
+          <Image src={product.imageUrl} alt="" width={520} height={480} />
+        </ImageContainer>
 
-      <ProductDetails>
-        <h1>{product.name}</h1>
-        <span>{product.price}</span>
+        <ProductDetails>
+          <h1>{product.name}</h1>
+          <span>{product.price}</span>
 
-        <p>{product.description}</p>
+          <p>{product.description}</p>
 
-        <button disabled={isCreatingCheckoutSession} onClick={handleByProduct}>
-          Comprar agora
-        </button>
-      </ProductDetails>
-    </ProductContainer>
+          <button
+            disabled={isCreatingCheckoutSession}
+            onClick={handleByProduct}
+          >
+            Comprar agora
+          </button>
+        </ProductDetails>
+      </ProductContainer>
+    </>
   )
 }
 
