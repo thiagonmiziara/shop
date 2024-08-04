@@ -17,6 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Image
           src={logoImg}
           alt="logo com dois triângulos verdes um sobre o outro e com o titulo ignite shop"
+          width={160}
         />
       </Header>
       <Component {...pageProps} />;
