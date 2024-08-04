@@ -7,6 +7,9 @@ import {
   ProductDetails,
 } from "@/styles/pages/product"
 import Image from "next/image"
+import { toast } from "react-toastify"
+import axios from "axios"
+import { useState } from "react"
 
 interface IProductsProps {
   id: string
@@ -14,6 +17,7 @@ interface IProductsProps {
   imageUrl: string
   price: string
   description: string
+  defaultPriceId: string
 }
 
 type TProductPageProps = {
@@ -21,6 +25,24 @@ type TProductPageProps = {
 }
 
 export default function Product({ product }: TProductPageProps) {
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false)
+  const handleByProduct = async () => {
+    try {
+      setIsCreatingCheckoutSession(true)
+      const response = await axios.post("/api/checkout", {
+        priceId: product.defaultPriceId,
+      })
+
+      const { checkoutUrl } = response.data
+
+      window.location.href = checkoutUrl
+    } catch (error) {
+      setIsCreatingCheckoutSession(false)
+      toast.error("Falha ao redirecionar ao checkout!")
+    }
+  }
+
   return (
     <ProductContainer>
       <ImageContainer>
@@ -33,7 +55,9 @@ export default function Product({ product }: TProductPageProps) {
 
         <p>{product.description}</p>
 
-        <button>Comprar agora</button>
+        <button disabled={isCreatingCheckoutSession} onClick={handleByProduct}>
+          Comprar agora
+        </button>
       </ProductDetails>
     </ProductContainer>
   )
@@ -68,6 +92,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
           currency: "BRL",
         }).format(Number(price.unit_amount) / 100),
         description: product.description,
+        defaultPriceId: price.id,
       },
     },
     revalidate: 60 * 60 * 24,
