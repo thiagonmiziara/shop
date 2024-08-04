@@ -4,6 +4,6 @@ const nextConfig = {
   images:{
     domains:["files.stripe.com"]
   }
-};
+}
 
-export default nextConfig;
+export default nextConfig

@@ -1,12 +1,12 @@
-import type { AppProps } from "next/app";
-import Image from "next/image";
+import type { AppProps } from "next/app"
+import Image from "next/image"
 
-import logoImg from "@/assets/logo.svg";
+import logoImg from "@/assets/logo.svg"
 
-import { globalStyles } from "@/styles/global";
-import { Container, Header } from "@/styles/pages/app";
+import { globalStyles } from "@/styles/global"
+import { Container, Header } from "@/styles/pages/app"
 
-globalStyles();
+globalStyles()
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -14,10 +14,10 @@ export default function App({ Component, pageProps }: AppProps) {
       <Header>
         <Image
           src={logoImg}
-          alt='logo com dois triângulos verdes um sobre o outro e com o titulo ignite shop'
+          alt="logo com dois triângulos verdes um sobre o outro e com o titulo ignite shop"
         />
       </Header>
       <Component {...pageProps} />;
     </Container>
-  );
+  )
 }
